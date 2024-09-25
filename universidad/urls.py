@@ -25,11 +25,6 @@ from portal.views import (
     ProfesorDetailView, CursalaView, proponer_facultad, cargar_universidades, cargar_materias, MateriaCreateView, ProfesorCreateView, TodasMateriasListView, TodosProfesoresListView, TopFacultadesView, TopProfesoresView
 )
 
-# Verifica si el superusuario ya existe
-if not User.objects.filter(username='admin').exists():
-    User.objects.create_superuser('admin', 'admin@example.com', 'adminpassword')
-    print("Superusuario creado exitosamente")
-
 urlpatterns = [
     # Administración
     path('admin/', admin.site.urls),
