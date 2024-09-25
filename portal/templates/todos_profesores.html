@@ -1,0 +1,283 @@
+{% extends 'base.html' %}
+
+{% block title %}Cursala{% endblock %}
+
+{% block content %}
+<style>
+/* Estilo para el encabezado */
+h1 {
+    margin-bottom: 0.7rem;
+    color: #0e294b; 
+}
+
+/* Estilo para el formulario de filtros */
+form {
+    max-width: 300px;
+    padding: 0.75rem;
+    background-color: #f1f1f1;
+    border-radius: 5px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    font-size: 0.9rem;
+}
+
+form label {
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    padding: 0.5rem;
+    font-size: 0.85rem;
+}
+
+.form-control {
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    padding: 0.5rem;
+    font-size: 0.85rem;
+}
+
+button {
+    background-color: #005b96 !important;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    padding: 0.4rem 1rem;
+    font-weight: bold;
+    font-size: 0.75rem;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    width: 100%;
+}
+
+button:hover {
+    background-color: #002244;
+}
+
+/* Estilo para la lista de profesores */
+ul {
+    list-style: none;
+    padding: 0;
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.divul li {
+    background-color: #fafafa;
+    margin-bottom: 0.4rem;
+    border-radius: 5px;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    padding: 0.7rem;
+    font-size: 0.9rem;
+}
+
+.divul li a {
+    color: #003366;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.divul li:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilo para la paginación */
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 1.5rem;
+    font-size: 0.85rem;
+}
+
+.pagination a {
+    margin: 0 0.3rem;
+    padding: 0.3rem 0.7rem;
+    background-color: #003366;
+    color: white;
+    border-radius: 3px;
+    text-decoration: none;
+    transition: background-color 0.3s;
+}
+
+.pagination a:hover {
+    background-color: #002244;
+}
+
+.pagination .current {
+    font-weight: bold;
+    color: #003366;
+    margin: 0 0.3rem;
+}
+
+/* Estilos responsivos */
+@media (max-width: 1930px) {
+    h1 {
+        margin-top: 8px;
+    }
+
+    form {
+        width: 300px;
+        padding: 0.15rem;
+        font-size: 0.5rem;
+    }
+
+    .btn {
+        font-size: 0.9rem;
+    }
+
+    form label {
+        font-size: 0.8rem;
+    }
+
+    .form-control {
+        padding: 0.2rem;
+        margin-bottom: 0.1rem;
+        font-size: 0.8rem;
+    }
+
+    button {
+        padding: 0.2rem 0.7rem;
+        font-weight: bold;
+        font-size: 0.6rem;
+        width: 30%;
+        height: 30%;
+    }
+
+    .divul li {
+        padding: 0.4rem;
+        font-size: 0.75rem;
+    }
+
+    .pagination a {
+        padding: 0.3rem 0.3rem;
+    }
+}
+
+@media (max-width: 768px) {
+    h1 {
+        font-size: 1.4rem;
+    }
+
+    form {
+        max-width: 95%;
+        padding: 0.5rem;
+    }
+
+    button {
+        font-size: 0.7rem;
+        padding: 0.35rem;
+    }
+
+    .divul li {
+        padding: 0.55rem;
+        font-size: 0.8rem;
+    }
+
+    .pagination {
+        font-size: 0.8rem;
+    }
+
+    .pagination a {
+        padding: 0.25rem 0.5rem;
+    }
+}
+
+@media (max-width: 576px) {
+    h1 {
+        font-size: 1.2rem;
+    }
+
+    form {
+        max-width: 100%;
+        padding: 0.4rem;
+    }
+
+    button {
+        font-size: 0.65rem;
+        padding: 0.3rem;
+    }
+
+    .divul li {
+        padding: 0.5rem;
+        font-size: 0.75rem;
+    }
+
+    .pagination {
+        font-size: 0.75rem;
+    }
+
+    .pagination a {
+        padding: 0.2rem 0.45rem;
+    }
+}
+</style>
+
+<!-- Encabezado principal de la página -->
+<h1>Profesores</h1>
+<p class="description">En esta página se muestran los profesores disponibles en nuestra base de datos.</p>
+<!-- Formulario para filtrar profesores por materia y facultad -->
+<form method="get" class="mb-2" id="filterForm">
+    <!-- 
+    <select name="materia" id="materia" class="form-control" onchange="submitForm()">
+        <option value="">Materia:</option>
+        {% for materia in materias %}
+        <option value="{{ materia.id }}" {% if materia.id|stringformat:"s" == request.GET.materia %}selected{% endif %}>
+            {{ materia.nombre }} ({{ materia.facultad__nombre }})
+        </option>
+        {% endfor %}
+    </select>
+    -->
+
+    <select name="facultad" id="facultad" class="form-control" onchange="submitForm()">
+        <option value="">Universidad:</option>
+        {% for facultad in facultades %}
+        <option value="{{ facultad.id }}" {% if facultad.id|stringformat:"s" == request.GET.facultad %}selected{% endif %}>
+            {{ facultad.nombre }}
+        </option>
+        {% endfor %}
+    </select>
+
+</form>
+
+<script>
+    function submitForm() {
+        document.getElementById('filterForm').submit();
+    }
+</script>
+
+
+<!-- Lista desordenada de profesores -->
+<ul class="divul">
+    {% for profesor in profesores %}
+    <li>
+        <a href="{% url 'profesor_detail' profesor.pk %}">{{ profesor.nombre }}</a> 
+        {% for facultad in profesor.facultades.all %}
+            ({{ facultad.nombre }}){% if not forloop.last %}, {% endif %}
+        {% endfor %}
+    </li>
+    {% endfor %}
+</ul>
+
+<!-- Paginación -->
+<div class="pagination">
+    <span class="step-links">
+        {% if page_obj.has_previous %}
+            <a href="?page=1{% if request.GET.materia %}&materia={{ request.GET.materia }}{% endif %}{% if request.GET.facultad %}&facultad={{ request.GET.facultad }}{% endif %}">&laquo; </a>
+            <a href="?page={{ page_obj.previous_page_number }}{% if request.GET.materia %}&materia={{ request.GET.materia }}{% endif %}{% if request.GET.facultad %}&facultad={{ request.GET.facultad }}{% endif %}">&lsaquo; </a>
+        {% endif %}
+
+        {% for num in page_obj.paginator.page_range %}
+            {% if page_obj.number == num %}
+                <span class="current">{{ num }}</span>
+            {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                <a href="?page={{ num }}{% if request.GET.materia %}&materia={{ request.GET.materia }}{% endif %}{% if request.GET.facultad %}&facultad={{ request.GET.facultad }}{% endif %}">{{ num }}</a>
+            {% endif %}
+        {% endfor %}
+
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}{% if request.GET.materia %}&materia={{ request.GET.materia }}{% endif %}{% if request.GET.facultad %}&facultad={{ request.GET.facultad }}{% endif %}"> &rsaquo;</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}{% if request.GET.materia %}&materia={{ request.GET.materia }}{% endif %}{% if request.GET.facultad %}&facultad={{ request.GET.facultad }}{% endif %}"> &raquo;</a>
+        {% endif %}
+    </span>
+</div>
+{% endblock %}

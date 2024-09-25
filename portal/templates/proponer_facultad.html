@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block title %}Proponer Nueva Facultad{% endblock %}
+
+{% block content %}
+<style>
+    .container {
+        background-color: #fff;
+        padding: 2rem;
+        border-radius: 8px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        max-width: 600px;
+        margin: 2rem auto;
+    }
+
+    .btn-primary {
+        background-color: #003366;
+        border: none;
+        font-size: 1rem;
+        padding: 0.5rem 1rem;
+    }
+
+    .btn-primary:hover {
+        background-color: #002244;
+    }
+</style>
+
+<div class="container">
+    <h1>Proponer Nueva Universidad</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Enviar</button>
+    </form>
+</div>
+{% endblock %}

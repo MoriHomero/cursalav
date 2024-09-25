@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+<!-- Bloque para el título de la página específica -->
+{% block title %}Cursala{% endblock %}
+
+<!-- Bloque de contenido que se insertará en la plantilla base -->
+{% block content %}
+<!-- Encabezado principal de la página -->
+<h1>Agregar Facultad</h1>
+
+<!-- Formulario para agregar una nueva facultad -->
+<form method="post">
+    <!-- Token CSRF para proteger el formulario contra ataques CSRF -->
+    {% csrf_token %}
+    <!-- Renderizado del formulario Django como párrafos -->
+    {{ form.as_p }}
+    <!-- Botón para enviar el formulario -->
+    <button type="submit" class="btn btn-primary">Guardar</button>
+    <!-- Botón para regresar a la página anterior -->
+    <button type="button" class="btn btn-secondary mt-2" onclick="history.back()">Volver</button>
+</form>
+{% endblock %}

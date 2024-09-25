@@ -1,0 +1,352 @@
+{% extends 'base.html' %}
+
+{% block title %}Cursala{% endblock %}
+
+{% block content %}
+<style>
+
+    .profesor-detail {
+        background-color: #f9f9f9;
+        padding: 0.8rem;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        max-width: 600px;
+        margin: 1rem auto;
+        font-size: 0.8rem; /* Ajusta el tamaño base del texto */
+    }
+    
+    .profesor-detail h1 {
+        font-size: 1.2rem;
+        margin-bottom: 0.1rem;
+        color: #0e294b;
+    }
+    
+    .profesor-detail .info {
+        margin-bottom: 0.2rem;
+        padding-bottom: 0.3rem;
+        border-bottom: 1px solid #ddd;
+    }
+    
+    .profesor-detail .info p {
+        margin: 0;
+        font-size: 0.8rem;
+        color: #333;
+    }
+    
+    .profesor-detail .info .promedio {
+        font-size: 0.8rem;
+        color: #026b6b;
+    }
+    
+    .profesor-detail .materias {
+        margin-bottom: 0.4rem;
+        padding-bottom: 0.2rem;
+        font-size: 0.7rem;
+        border-bottom: 1px solid #ddd;
+    }
+    
+    .profesor-detail .materias p {
+        margin: 0;
+        color: #555;
+    }
+    
+    .profesor-detail .comments {
+        margin-bottom: 0.2rem;
+    }
+    
+    .profesor-detail .comments h2 {
+        margin-bottom: 0.1rem;
+        color: #0044cc;
+    }
+    
+    .profesor-detail .info p,
+    .profesor-detail .info .promedio,
+    .profesor-detail .comments h2 {
+        font-size: 0.72rem;
+    }
+    
+    .profesor-detail .comments ul {
+        list-style: none;
+        padding: 0;
+    }
+    
+    .profesor-detail .comments ul li {
+        margin-bottom: 0.2rem;
+        padding: 0.35rem;
+        border-radius: 4px;
+        background-color: #ffffff;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+    
+    .profesor-detail .comments ul li p {
+        margin: 0;
+        font-size: 0.75rem;
+        color: #444;
+    }
+    
+    .profesor-detail .comments ul li p strong {
+        color: #008080;
+    }
+    
+    /* Paginación */
+    .profesor-detail .pagination {
+        text-align: center;
+        margin-top: 0.1rem;
+    }
+    
+    .profesor-detail .pagination .step-links {
+        display: flex;
+        justify-content: center;
+        gap: 0.1rem;
+    }
+    
+    .profesor-detail .pagination a,
+    .profesor-detail .pagination .current {
+        padding: 0.25rem 0.4rem;
+        background-color: #003366;
+        color: white;
+        border-radius: 5px;
+        text-decoration: none;
+        transition: background-color 0.3s;
+        font-size: 0.45rem;
+    }
+    
+    .profesor-detail .pagination a:hover {
+        background-color: #002244;
+    }
+    
+    .profesor-detail .pagination .current {
+        font-weight: bold;
+        color: #003366;
+        background-color: #dfdfdf; /* Fondo diferente para la página actual */
+        border: 1px solid #003366; /* Opcional: borde alrededor de la página actual */
+    }
+    
+    /* Se mantiene sin subrayado */
+    .profesor-detail .pagination a {
+        text-decoration: none; /* Asegura que los enlaces no tengan subrayado */
+    }
+    
+    /* Agregar estilos para botones de acción */
+    .profesor-detail .add-comment {
+        background-color: #e7f3ff;
+        padding: 0.3rem;
+        border-radius: 8px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        font-size: 0.6rem;
+    }
+    
+    .profesor-detail .add-comment h2 {
+        font-size: 0.75rem;
+        margin-bottom: 0.2rem;
+        color: #333;
+    }
+    
+    .profesor-detail .add-comment .form-group {
+        margin-bottom: 0.1rem;
+    }
+    
+    .profesor-detail .add-comment .form-group label {
+        font-size: 0.7rem;
+        font-weight: bold;
+        color: #555;
+    }
+    
+    .profesor-detail .add-comment .form-group input,
+    .profesor-detail .add-comment .form-group textarea {
+        width: 100%;
+        padding: 0.2rem;
+        font-size: 0.7rem;
+        border-radius: 4px;
+        border: 1px solid #ccc;
+        box-sizing: border-box;
+    }
+    
+    .profesor-detail .add-comment .form-group textarea {
+        resize: none;
+        height: 2rem;
+    }
+    
+    .profesor-detail .add-comment .button-group {
+        display: flex;
+        justify-content: space-between;
+    }
+    
+    .profesor-detail .add-comment .btn-primary {
+        background-color: #0044cc;
+        color: #fff;
+        padding: 0.2rem 0.8rem;
+        font-size: 0.75rem;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+    
+    .profesor-detail .add-comment .btn-primary:hover {
+        background-color: #003399;
+    }
+    
+    .profesor-detail .add-comment .btn-secondary {
+        background-color: #aaa;
+        color: #fff;
+        padding: 0.25rem 0.8rem;
+        font-size: 0.75rem;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+    
+    .profesor-detail .add-comment .btn-secondary:hover {
+        background-color: #888;
+    }
+    
+    /* Estilos responsivos */
+    @media (max-width: 1930px)  {
+        .profesor-detail {
+            width: 400px;
+            padding: 0.8rem;
+            margin: 0.6rem auto;
+        }
+    
+        .profesor-detail h1 {
+            font-size: 1.2rem;
+        }
+    
+        .profesor-detail .info p,
+        .profesor-detail .info .promedio,
+        .profesor-detail .comments h2 {
+            font-size: 0.9rem;
+        }
+    
+        .profesor-detail .comments ul li p,
+        .profesor-detail .add-comment .form-group label,
+        .profesor-detail .add-comment .btn-primary,
+        .profesor-detail .add-comment .btn-secondary {
+            font-size: 0.72rem;
+        }
+    
+        .add-comment {
+            padding: 0.1rem;
+        }
+    }
+    
+    @media (max-width: 768px) {
+        .profesor-detail {
+            max-width: 90%;
+            padding: 0.6rem;
+            margin: 1rem auto;
+        }
+    
+        .profesor-detail h1 {
+            font-size: 1.2rem;
+        }
+    
+        .profesor-detail .info p,
+        .profesor-detail .info .promedio,
+        .profesor-detail .comments h2 {
+            font-size: 0.8rem;
+        }
+    
+        .profesor-detail .comments ul li p,
+        .profesor-detail .add-comment .form-group label,
+        .profesor-detail .add-comment .btn-primary,
+        .profesor-detail .add-comment .btn-secondary {
+            font-size: 0.7rem;
+        }
+    }
+    
+    @media (max-width: 576px) {
+        .profesor-detail {
+            max-width: 95%;
+            padding: 0.5rem;
+            margin: 0.5rem auto;
+        }
+    
+        .profesor-detail h1 {
+            font-size: 1rem;
+        }
+    
+        .profesor-detail .info p,
+        .profesor-detail .info .promedio,
+        .profesor-detail .comments h2 {
+            font-size: 0.75rem;
+        }
+    
+        .profesor-detail .comments ul li p,
+        .profesor-detail .add-comment .form-group label,
+        .profesor-detail .add-comment .btn-primary,
+        .profesor-detail .add-comment .btn-secondary {
+            font-size: 0.65rem;
+        }
+    }
+    
+
+</style>
+
+<div class="profesor-detail">
+    <h1>{{ profesor.nombre }}</h1>
+    <div class="info">
+        <p class="promedio"><strong>Promedio:</strong> {{ profesor.promedio }}</p>
+        <p><strong>Materias:</strong> 
+            {% for materia in profesor.materias.all %}
+                {{ materia.nombre }}{% if not forloop.last %}, {% endif %}
+            {% empty %}
+                No hay materias asignadas.
+            {% endfor %}
+        </p>
+    </div>
+
+    <div class="comments">
+        <ul>
+            {% for comentario in comentarios %}
+                <li>
+                    <p><strong>Puntaje:</strong> {{ comentario.puntaje }}</p>
+                    <p>{{ comentario.texto }}</p>
+                </li>
+            {% empty %}
+                <li>No hay comentarios aún.</li>
+            {% endfor %}
+        </ul>
+
+        <div class="pagination">
+            <span class="step-links">
+                {% if comentarios.has_previous %}
+                    <a href="?page=1"><<</a>
+                    <a href="?page={{ comentarios.previous_page_number }}"><</a>
+                {% endif %}
+        
+                {% for num in comentarios.paginator.page_range %}
+                    {% if comentarios.number == num %}
+                        <span class="current">{{ num }}</span>
+                    {% elif num > comentarios.number|add:'-3' and num < comentarios.number|add:'3' %}
+                        <a href="?page={{ num }}">{{ num }}</a>
+                    {% endif %}
+                {% endfor %}
+        
+                {% if comentarios.has_next %}
+                    <a href="?page={{ comentarios.next_page_number }}">></a>
+                    <a href="?page={{ comentarios.paginator.num_pages }}">>></a>
+                {% endif %}
+            </span>
+        </div>
+    </div>
+
+    <div class="add-comment">
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="id_puntaje">Puntaje</label>
+                <input type="number" id="id_puntaje" name="puntaje" required min="1" max="10">
+            </div>
+            <div class="form-group">
+                <label for="id_texto">Comentario</label>
+                <textarea id="id_texto" name="texto" required></textarea>
+            </div>
+            <div class="button-group">
+                <button type="submit" class="btn-primary">Enviar</button>
+                <button type="button" class="btn-secondary" onclick="history.back()">Volver</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

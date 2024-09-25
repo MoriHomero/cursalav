@@ -1,0 +1,8 @@
+TRAER ID DE FACULTADES PARA CARGA MASIVA DE MATERIAS
+python manage.py shell
+
+from portal.models import Facultad
+
+facultades = Facultad.objects.all()
+for facultad in facultades:
+    print(facultad.id, facultad.nombre)

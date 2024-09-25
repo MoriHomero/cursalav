@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}Cursala{% endblock %}</title>
+  {% load static %}
+  <link rel="shortcut icon" href="{% static 'favicon16x16.png' %}">
+
+ <!-- Enlace a Google Fonts -->
+ <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap" rel="stylesheet">
+
+ <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
+
+
+
+
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <style>
+    /* Estilos base */
+    * {
+      margin: 0;
+      box-sizing: border-box;
+      padding: 0;
+    }
+
+    body {
+      background-color: #afb5ca;
+      background-size: cover; /* Ajusta el tamaño del SVG al tamaño del contenedor */
+      font-family: "Roboto", Arial, Helvetica, sans-serif;
+      font-size: 0.9rem; /* Reducido el tamaño de fuente general */
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      margin: 0;
+    }
+
+    h1 {
+      margin-bottom: 0.7rem;
+      font-size: 1.75rem;
+      color: #0e294b;
+      font-family: 'Montserrat', sans-serif; 
+  }
+
+    header {
+      background-color: #003366;
+      padding: 0.6rem 0.9rem; /* Reducido el padding */
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.8rem; /* Reducido el tamaño de fuente */
+    }
+
+
+    .description {
+      text-align: center;
+      margin-bottom: 1.2rem;
+      font-size: 0.85rem;
+      color: #666;
+      line-height: 1.4;
+      font-weight: 400;
+      max-width: 90%%;
+      margin: 0 auto 1.5rem;
+  }
+
+
+    header img {
+      width: 58%; /* Reducido el ancho de la imagen */
+      height: auto;
+    }
+
+    nav {
+      display: flex;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: #d7d9e4;
+      font-weight: bold;
+      padding: 0.2rem 0.6rem; /* Reducido el padding */
+      margin: 0 0.2rem; /* Reducido el margen */
+      border-radius: 4px;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    nav a:hover {
+      background-color: #004080;
+      color: #ffffff;
+      text-decoration: none;
+    }
+
+    .quick-nav {
+      display: flex;
+      justify-content: center;
+      margin: 0.45rem 0; /* Reducido el margen */
+    }
+
+    .quick-nav a {
+      display: block;
+      background-color: #003366;
+      color: #d7d9e4;
+      padding: 0.3rem 0.7rem; /* Reducido el padding */
+      border-radius: 10px; /* Reducido el radio del borde */
+      text-decoration: none;
+      margin: 0 0.7rem; /* Reducido el margen */
+      text-align: center;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    .quick-nav a:hover {
+      background-color: #004080;
+      color: #ffffff;
+    }
+
+    main {
+      display: flex;
+      flex: 1;
+      min-height: 300px;
+      flex-direction: row;
+    }
+
+    .maincontent {
+      
+      flex: 1;
+      box-sizing: border-box;
+      padding: 0.6rem; /* Reducido el padding */
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      /* background-color: #d7d9e4; */
+      background-color: #cfd8e2;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .sidebar {
+      flex: 0 0 22%;
+      background-color: #003366;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+    }
+
+    .sidebar {
+      position: relative; /* Necesario para posicionar el pseudo-elemento */
+      overflow: hidden; /* Asegura que el difuminado no sobresalga del contenedor */
+    }
+    
+    .sidebar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: blur(0.4px); /* Ajusta el valor para controlar el nivel de difuminado */
+      transition: filter 0.3s ease; /* Añade transición para un efecto suave si se cambia */
+    }
+    
+    .sidebar::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.3); /* Ajusta el color y la opacidad del filtro */
+      z-index: 1; /* Asegura que el filtro esté encima de la imagen */
+    }
+    
+    .sidebar img {
+      position: relative;
+      z-index: 0; /* Asegura que la imagen esté detrás del filtro */
+    }
+
+    footer {
+      background-color: #333333;
+      color: white;
+      display: flex;
+      justify-content: center;
+      padding: 0.9rem 1rem; /* Reducido el padding */
+      font-size: 0.7rem; /* Reducido el tamaño de fuente */
+    }
+
+    /* Estilos responsivos */
+    @media (max-width: 992px) {
+      .sidebar {
+        display: none;
+      }
+
+      main {
+        flex-direction: column;
+      }
+    }
+
+    @media (max-width: 768px) {
+      header {
+        padding: 0.3rem 0.8rem; /* Reducido el padding */
+        font-size: 0.8rem; /* Reducido el tamaño de fuente */
+      }
+
+      header img {
+        max-width: 80px; /* Reducido el ancho de la imagen */
+      }
+
+      footer {
+        padding: 0.6rem 0.8rem; /* Reducido el padding */
+        font-size: 0.6rem; /* Reducido el tamaño de fuente */
+      }
+
+      nav a {
+        padding: 0.3rem 0.6rem; /* Reducido el padding */
+        font-size: 0.8rem; /* Reducido el tamaño de fuente */
+      }
+
+      .quick-nav a {
+        padding: 0.3rem 0.6rem; /* Reducido el padding */
+        margin: 0 0.3rem; /* Reducido el margen */
+      }
+    }
+
+    @media (max-width: 576px) {
+      header {
+        flex-direction: column;
+        align-items: flex-start;
+        font-size: 0.7rem; /* Reducido el tamaño de fuente */
+      }
+
+      header img {
+        width: 60px; /* Reducido el ancho de la imagen */
+      }
+
+      nav {
+        flex-wrap: wrap;
+      }
+
+      nav a {
+        font-size: 0.7rem; /* Reducido el tamaño de fuente */
+        font-weight: normal;
+        margin: 0.3rem 0;
+      }
+
+      .quick-nav a {
+        padding: 0.3rem 0.6rem; /* Reducido el padding */
+        margin: 0 0.3rem; /* Reducido el margen */
+      }
+
+      .maincontent {
+        padding: 0.8rem; /* Reducido el padding */
+      }
+
+      footer {
+        flex-direction: column;
+        align-items: flex-start;
+        font-size: 0.6rem; /* Reducido el tamaño de fuente */
+      }
+
+      footer span {
+        margin-top: 0.3rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    {% load static %}
+    <a href="{% url 'facultad_list' %}"><img src="{% static 'blanco.png' %}" alt="logo-cursala"></a>
+    <nav>
+      <a href="{% url 'top_facultades' %}">Top Universidades</a>
+      <a href="{% url 'top_profesores' %}">Top Docentes</a>
+      <a href="{% url 'cursala' %}">Cursala</a>
+    </nav>
+  </header>
+  <main>
+    <div class="maincontent">
+      <div class="quick-nav">
+        <a href="{% url 'facultad_list' %}">Universidades</a>
+        <a href="{% url 'todas_materias' %}">Materias</a>
+        <a href="{% url 'todos_profesores' %}">Profesores</a>
+      </div>
+      {% block content %}
+      {% endblock %}
+    </div>
+    <div class="sidebar">
+      <img src="{% static 'fotomain.jpg' %}" alt="foto-main">
+    </div>
+  </main>
+  <footer>
+    <span>Buenos Aires, Argentina</span>
+  </footer>
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
