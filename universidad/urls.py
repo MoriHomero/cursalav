@@ -14,6 +14,8 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from django.contrib.auth.models import User  # Importar el modelo User
+
 from django.contrib import admin
 from django.urls import path
 from portal import views
@@ -22,6 +24,11 @@ from portal.views import (
     FacultadListView, MateriaListView, ProfesorListView,
     ProfesorDetailView, CursalaView, proponer_facultad, cargar_universidades, cargar_materias, MateriaCreateView, ProfesorCreateView, TodasMateriasListView, TodosProfesoresListView, TopFacultadesView, TopProfesoresView
 )
+
+# Verifica si el superusuario ya existe
+if not User.objects.filter(username='admin').exists():
+    User.objects.create_superuser('admin', 'admin@example.com', 'adminpassword')
+    print("Superusuario creado exitosamente")
 
 urlpatterns = [
     # Administración
