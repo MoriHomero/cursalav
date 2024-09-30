@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -7,268 +8,58 @@
   <meta name="keywords" content="universidades, docentes, materias, recomendaciones">
   <meta name="author" content="Tu Nombre">
   <title>{% block title %}Cursala{% endblock %}</title>
-  {% load static %}
-  <link rel="icon" type="image/x-icon" href="{% static 'favicon16x16.png' %}">
-
-  <!-- Enlace a Google Fonts combinado -->
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
-
-  <!-- Bootstrap -->
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
   
-  <style>
-    /* Variables CSS */
-    :root {
-      --primary-color: #003366;
-      --secondary-color: #d7d9e4;
-      --background-color: #afb5ca;
-      --font-size-small: 0.9rem;
-      --font-size-tiny: 0.7rem;
-      --header-padding: 0.6rem 0.9rem;
-    }
-
-    /* Estilos base */
-    * {
-      margin: 0;
-      box-sizing: border-box;
-      padding: 0;
-    }
-
-    body {
-      background-color: var(--background-color);
-      background-size: cover;
-      font-family: "Roboto", Arial, Helvetica, sans-serif;
-      font-size: var(--font-size-small);
-      display: flex;
-      flex-direction: column;
-      min-height: 100vh;
-      margin: 0;
-    }
-
-    h1 {
-      margin-bottom: 0.7rem;
-      font-size: 1.75rem;
-      color: #0e294b;
-      font-family: 'Montserrat', sans-serif; 
-    }
-
-    header {
-      background-color: var(--primary-color);
-      padding: var(--header-padding);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      font-size: 0.8rem;
-    }
-
-    .description {
-      text-align: center;
-      margin-bottom: 1.2rem;
-      font-size: 0.85rem;
-      color: #666;
-      line-height: 1.4;
-      font-weight: 400;
-      max-width: 90%;
-      margin: 0 auto 1.5rem;
-    }
-
-    header img {
-      width: 58%;
-      height: auto;
-    }
-
-    nav {
-      display: flex;
-    }
-
-    nav a {
-      text-decoration: none;
-      color: var(--secondary-color);
-      font-weight: bold;
-      padding: 0.2rem 0.6rem;
-      margin: 0 0.2rem;
-      border-radius: 4px;
-      transition: background-color 0.3s ease, color 0.3s ease;
-    }
-
-    nav a:hover {
-      background-color: #004080;
-      color: #ffffff;
-    }
-
-    .quick-nav {
-      display: flex;
-      justify-content: center;
-      margin: 0.45rem 0;
-    }
-
-    .quick-nav a {
-      display: block;
-      background-color: var(--primary-color);
-      color: var(--secondary-color);
-      padding: 0.3rem 0.7rem;
-      border-radius: 10px;
-      text-decoration: none;
-      margin: 0 0.7rem;
-      text-align: center;
-      transition: background-color 0.3s ease, color 0.3s ease;
-    }
-
-    .quick-nav a:hover {
-      background-color: #004080;
-      color: #ffffff;
-    }
-
-    main {
-      display: flex;
-      flex: 1;
-      min-height: 300px;
-      flex-direction: row;
-    }
-
-    .maincontent {
-      flex: 1;
-      box-sizing: border-box;
-      padding: 0.6rem;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      background-color: #cfd8e2;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    }
-
-    .sidebar {
-      flex: 0 0 22%;
-      background-color: var(--primary-color);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      overflow: hidden;
-      position: relative;
-    }
-    
-    .sidebar img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      filter: blur(0.4px);
-      transition: filter 0.3s ease;
-      position: relative;
-      z-index: 0;
-    }
-    
-    .sidebar::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.3);
-      z-index: 1;
-    }
-
-    footer {
-      background-color: #333333;
-      color: white;
-      display: flex;
-      justify-content: center;
-      padding: 0.9rem 1rem;
-      font-size: var(--font-size-tiny);
-    }
-
-    /* Estilos responsivos */
-    @media (max-width: 992px) {
-      .sidebar {
-        display: none;
-      }
-
-      main {
-        flex-direction: column;
-      }
-    }
-
-    @media (max-width: 768px) {
-      header {
-        padding: 0.3rem 0.8rem;
-        font-size: 0.8rem;
-      }
-
-      header img {
-        max-width: 80px;
-      }
-
-      footer {
-        padding: 0.6rem 0.8rem;
-        font-size: 0.6rem;
-      }
-
-      nav a {
-        padding: 0.3rem 0.6rem;
-        font-size: 0.8rem;
-      }
-
-      .quick-nav a {
-        padding: 0.3rem 0.6rem;
-        margin: 0 0.3rem;
-      }
-    }
-
-    @media (max-width: 576px) {
-      header {
-        padding: 0.4rem 0.8rem;
-        font-size: 0.6rem;
-      }
-    
-      header img {
-        max-width: 100px;
-      }
-
-      footer {
-        flex-direction: column;
-        align-items: flex-start;
-        font-size: 0.6rem;
-      }
-
-      footer span {
-        margin-top: 0.3rem;
-      }
-    }
-  </style>
+  <!-- Favicon -->
+  <link rel="icon" type="image/x-icon" href="{% static 'favicon16x16.png' %}">
+  
 </head>
 <body>
+  <!-- Header -->
   <header>
-    <a href="{% url 'facultad_list' %}"><img src="{% static 'blanco.png' %}" alt="logo-cursala"></a>
     <nav>
-      <a href="{% url 'top_facultades' %}">Top Universidades</a>
-      <a href="{% url 'top_profesores' %}">Top Docentes</a>
-      <a href="{% url 'cursala' %}">Cursala</a>
+      <a href="{% url 'facultad_list' %}">
+        <img src="{% static 'blanco.png' %}" alt="logo-cursala">
+      </a>
+      <button type="button" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span></span>
+      </button>
+      <div>
+        <ul>
+          <li>
+            <a href="{% url 'top_facultades' %}">Top Universidades</a>
+          </li>
+          <li>
+            <a href="{% url 'top_profesores' %}">Top Docentes</a>
+          </li>
+          <li>
+            <a href="{% url 'cursala' %}">Cursala</a>
+          </li>
+        </ul>
+      </div>
     </nav>
   </header>
-  
+
+  <!-- Contenido principal -->
   <main>
-    <div class="maincontent">
-      <div class="quick-nav">
-        <a href="{% url 'facultad_list' %}">Universidades</a>
-        <a href="{% url 'todas_materias' %}">Materias</a>
-        <a href="{% url 'todos_profesores' %}">Profesores</a>
+    <div>
+      <div>
+        <!-- Quick navigation links -->
+        <div>
+          <a href="{% url 'facultad_list' %}">Universidades</a>
+          <a href="{% url 'todas_materias' %}">Materias</a>
+          <a href="{% url 'todos_profesores' %}">Profesores</a>
+        </div>
+
+        <!-- Bloque de contenido dinámico -->
+        {% block content %}
+        {% endblock %}
       </div>
-      {% block content %}
-      {% endblock %}
-    </div>
-    
-    <div class="sidebar">
-      <img src="{% static 'fotomain.jpg' %}" alt="foto-main" loading="lazy">
     </div>
   </main>
-  
+
+  <!-- Footer -->
   <footer>
-    <span>Buenos Aires, Argentina</span>
+    <span>2024 Cursala | Buenos Aires, Argentina</span>
   </footer>
-  
-  <!-- Scripts cargados de forma diferida -->
-  <script defer src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-  <script defer src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
-  <script defer src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

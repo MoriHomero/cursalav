@@ -1,130 +1,19 @@
 {% extends 'base.html' %}
 
-<!-- Bloque para el título de la página específica -->
 {% block title %}Cursala{% endblock %}
 
-<!-- Bloque de contenido que se insertará en la plantilla base -->
 {% block content %}
-<style>
-    /* Estilos de Encabezado */
-    h1 {
-        margin-bottom: 0.7rem;
-        color: #0e294b; 
-    }
+{% load static %}
 
+<h1>Universidad</h1>
+<p>Busca tu universidad y las materias disponibles para consultar los comentarios sobre los profesores que las dictan.</p>
 
+<div id="loadingSpinner" style="display: none;">
+    <img src="{% static 'img/spinner.gif' %}" alt="Cargando..." style="width: 50px; height: 50px;">
+</div>
 
-    /* Lista de Facultades */
-    .faculty-list {
-        list-style: none;
-        padding: 0;
-        max-width: 500px;
-        margin: 0 auto;
-    }
-
-    .faculty-list li {
-        background-color: #f5f5f5; /* Gris claro */
-        margin-bottom: 0.5rem;
-        border-radius: 8px;
-        transition: transform 0.2s, box-shadow 0.2s;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    }
-
-    .faculty-list li:hover {
-        background-color: #e6e3e3;
-        transform: translateY(-1px);
-        box-shadow: 0 5px 5px rgba(0, 0, 0, 0.2);
-    }
-
-    .faculty-list a {
-        display: block;
-        padding: 0.5rem 0.9rem;
-        text-decoration: none;
-        color: #003366; /* Azul oscuro */
-        font-weight: 400;
-        font-size: 0.8rem;
-        font-weight: bold;
-    }
-
-    .faculty-list a:hover {
-        color: #002244; /* Azul aún más oscuro */
-    }
-
-    /* Estilos Responsivos */
-    @media (max-width: 1930px) {
-
-        .university-header {
-            margin-top: 8px;
-        }
-
-        .faculty-list {
-            max-width: 400px; /* Reducir el ancho */
-            padding: 0 9px; /* Añadir padding lateral */
-        }
-
-        .faculty-list a {
-            font-size: 0.75rem; /* Ajustar tamaño de fuente del enlace */
-            padding: 0.65rem 1rem; /* Ajustar padding */
-        }
-
-        .faculty-list li {
-            margin-bottom: 0.4rem; /* Reducir margen entre elementos */
-        }
-    }
-
-    @media (max-width: 1024px) {
-        .university-header {
-            font-size: 1.3rem;
-        }
-
-        .faculty-list {
-            max-width: 350px; /* Reducir el ancho */
-        }
-
-        .faculty-list a {
-            font-size: 0.8rem;
-        }
-    }
-
-    @media (max-width: 768px) {
-        .university-header {
-            font-size: 1.2rem;
-        }
-
-        .faculty-list {
-            max-width: 300px;
-        }
-
-        .faculty-list a {
-            font-size: 0.75rem;
-        }
-    }
-
-    @media (max-width: 576px) {
-        .university-header {
-            font-size: 1.1rem;
-        }
-
-        .faculty-list {
-            max-width: 260px;
-            padding: 0 5px;
-        }
-
-        .faculty-list a {
-            font-size: 0.7rem;
-            padding: 0.6rem 1rem;
-        }
-    }
-</style>
-
-<!-- Encabezado principal de la página -->
-<h1 class="university-header">Universidad</h1>
-<p class="description">
-    Busca tu universidad y las materias disponibles para consultar los comentarios sobre los profesores que las dictan.
-</p>
-<!-- Formulario de búsqueda -->
-<form method="GET" action="{% url 'facultad_list' %}" style="text-align: center; margin-bottom: 0.01rem;" id="searchForm">
-    <input type="text" name="q" placeholder="Buscar universidad..." value="{{ request.GET.q }}" style="padding: 0.3rem; border: 1px solid #ccc; border-radius: 4px; width: 80%; max-width: 300px; margin-bottom: 0.9rem;" oninput="debounceSubmit()">
+<form method="GET" action="{% url 'facultad_list' %}" id="searchForm">
+    <input type="text" name="q" placeholder="Buscar universidad..." value="{{ request.GET.q }}" required oninput="debounceSubmit()">
 </form>
 
 <script>
@@ -132,20 +21,24 @@
 
     function debounceSubmit() {
         clearTimeout(debounceTimeout);
-        debounceTimeout = setTimeout(submitForm, 500); // 500ms delay
+        debounceTimeout = setTimeout(submitForm, 1000); 
     }
 
     async function submitForm() {
         const form = document.getElementById('searchForm');
         const formData = new FormData(form);
         const query = new URLSearchParams(formData).toString();
-        
+
+        document.getElementById('loadingSpinner').style.display = 'block'; 
+
         const response = await fetch(form.action + '?' + query, {
             method: 'GET',
             headers: {
                 'X-Requested-With': 'XMLHttpRequest'
             }
         });
+
+        document.getElementById('loadingSpinner').style.display = 'none'; 
 
         if (response.ok) {
             const html = await response.text();
@@ -154,12 +47,11 @@
     }
 </script>
 
-<!-- Lista desordenada de facultades -->
-<ul class="faculty-list">
-    <!-- Bucle que recorre todas las facultades pasadas al contexto de la plantilla -->
+<ul>
     {% for facultad in facultades %}
-        <!-- Elemento de lista con un enlace a la página de materias de la facultad -->
-        <li><a href="{% url 'materia_list' facultad.pk %}">{{ facultad.nombre }}</a></li>
+        <li>
+            <a href="{% url 'materia_list' facultad.pk %}">{{ facultad.nombre }}</a>
+        </li>
     {% endfor %}
 </ul>
 {% endblock %}

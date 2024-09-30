@@ -1,130 +1,23 @@
 {% extends 'base.html' %}
 
-<!-- Bloque para el título de la página específica -->
-{% block title %}Cursala{% endblock %}
+{% block title %}Cursala - Agregar Profesor{% endblock %}
 
-<!-- Bloque de contenido que se insertará en la plantilla base -->
 {% block content %}
-<style>
-
-    .form-container {
-        background-color: #f2f2f2;
-        padding: 2rem;
-        border-radius: 8px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        max-width: 600px;
-        margin: 2rem auto;
-        text-align: center;
-    }
-
-    .form-container form {
-        display: flex;
-        flex-direction: column;
-    }
-
-    .form-container .form-group {
-        margin-bottom: 1rem;
-    }
-
-    .form-container label {
-        font-weight: bold;
-        margin-bottom: 0.5rem;
-    }
-
-    .form-container .form-control {
-        border-radius: 4px;
-        box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
-        border: 1px solid #ccc;
-        padding: 0.75rem 1.25rem;
-    }
-
-    .form-container .btn {
-        background-color: #003366 !important;
-        color: white;
-        border: none;
-        border-radius: 3px;
-        padding: 0.4rem 1rem;
-        font-weight: bold;
-        font-size: 0.75rem;
-        cursor: pointer;
-        transition: background-color 0.3s;
-        width: 100%;
-        margin-top: 1rem;
-    }
-
-    .form-container .btn-secondary {
-        background-color: #005b96 !important;
-        border: 1px solid #6c757d;
-        color: #ffffff;
-    }
-
-    .form-container .btn-secondary:hover {
-        background-color: #5a6268;
-        border-color: #545b62;
-    }
-
-    /* Media queries para diseño responsivo */
-    @media (max-width: 1930px) {
-        .form-container h1 {
-            font-size: 1.3rem;
-        }
-
-        .form-container {
-            padding: 1.5rem;
-            max-width: 70%;
-        }
-
-        .form-container .btn {
-            font-size: 0.7rem;
-        }
-    }
-
-    @media (max-width: 768px) {
-        .form-container {
-            padding: 1rem;
-            max-width: 100%;
-        }
-
-        .form-container h1 {
-            font-size: 1.5rem;
-        }
-
-        .form-container .btn {
-            font-size: 0.7rem;
-        }
-    }
-
-    @media (max-width: 576px) {
-        .form-container {
-            padding: 0.75rem;
-            max-width: 100%;
-        }
-
-        .form-container h1 {
-            font-size: 1.25rem;
-        }
-
-        .form-container .btn {
-            font-size: 0.65rem;
-        }
-    }
-</style>
-
 <!-- Contenedor del formulario -->
-<div class="form-container">
+<div class="add-profesor-container">
     <!-- Encabezado principal de la página -->
-    <h1>Agregar Materia</h1>
+    <h1>Agregar Profesor</h1>
 
-    <!-- Formulario para agregar una nueva materia -->
+    <!-- Formulario para agregar un nuevo profesor -->
     <form method="post">
         <!-- Token CSRF para proteger el formulario contra ataques CSRF -->
         {% csrf_token %}
-        <!-- Renderizado del formulario Django como párrafos -->
+        <!-- Renderizado del formulario Django -->
         {{ form.as_p }}
         <!-- Botón para enviar el formulario -->
-        <button type="submit" class="btn btn-primary">Guardar</button>
+        <button type="submit">Guardar</button>
         <!-- Botón para regresar a la página anterior -->
-        <button type="button" class="btn btn-secondary mt-2" onclick="history.back()">Volver</button>
+        <button type="button" onclick="history.back()">Volver</button>
     </form>
 </div>
 {% endblock %}
